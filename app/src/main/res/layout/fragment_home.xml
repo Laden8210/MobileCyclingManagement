@@ -43,21 +43,36 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="12dp">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPost"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:hint="Post your Actity" />
+                            android:layout_height="wrap_content"
+                            android:hint="Post your Activity" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
+                        android:id="@+id/btnUploadImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Upload Images" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewImages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" />
+
+                    <Button
+                        android:id="@+id/btnPostNow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -65,6 +80,7 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
 
             <TextView
                 android:layout_width="wrap_content"

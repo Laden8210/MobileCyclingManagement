@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.mobilecyclingmanagement.R;
+import com.example.mobilecyclingmanagement.api.ApiAddress;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
@@ -18,9 +20,9 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
     private final Context context;
-    private final List<Integer> images;
+    private final List<String> images;
 
-    public ImageAdapter(Context context, List<Integer> images) {
+    public ImageAdapter(Context context, List<String> images) {
         this.context = context;
         this.images = images;
     }
@@ -34,20 +36,22 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        holder.imageView.setImageResource(images.get(position));
-
-        holder.cardView.setOnClickListener(view -> showImageDialog(images.get(position)));
+        String url = ApiAddress.BASE_URL + images.get(position);
+        Glide.with(context)
+                .load(url)
+                .into(holder.imageView);
+        holder.cardView.setOnClickListener(view -> showImageDialog(url));
 
 
     }
 
-    private void showImageDialog(int imageResource) {
+    private void showImageDialog(String url) {
         // Create a custom layout for the dialog
         View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_image, null);
         ImageView dialogImageView = dialogView.findViewById(R.id.dialogImageView);
-        dialogImageView.setImageResource(imageResource);
 
-        // Build and show the dialog
+
+        Glide.with(context).load(url).into(dialogImageView);
         new MaterialAlertDialogBuilder(context)
                 .setView(dialogView)
                 .show();

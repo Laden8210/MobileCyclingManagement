@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.mobilecyclingmanagement.LandingActivity;
 import com.example.mobilecyclingmanagement.R;
 import com.example.mobilecyclingmanagement.fragment.HistoryFragment;
 import com.example.mobilecyclingmanagement.fragment.HomeFragment;
@@ -27,7 +28,9 @@ import com.example.mobilecyclingmanagement.fragment.NoticationFragment;
 import com.example.mobilecyclingmanagement.fragment.ProfileFragment;
 import com.example.mobilecyclingmanagement.fragment.SearchRideFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HeroActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -85,6 +88,23 @@ public class HeroActivity extends AppCompatActivity implements NavigationView.On
             changeFragment(new HistoryFragment());
         }else if (item.getItemId() == R.id.menu_search_ride){
             changeFragment(new SearchRideFragment());
+        }else if (item.getItemId() == R.id.menu_logout){
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("Logout")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(HeroActivity.this, LandingActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+
+                        dialog.dismiss();
+                    })
+                    .show();
         }
 
 

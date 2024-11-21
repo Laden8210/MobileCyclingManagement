@@ -12,11 +12,23 @@ import android.view.ViewGroup;
 
 import com.example.mobilecyclingmanagement.R;
 import com.example.mobilecyclingmanagement.adapter.NotificationAdapter;
+import com.example.mobilecyclingmanagement.callback.FirestoreCallback;
+import com.example.mobilecyclingmanagement.model.Notification;
+import com.example.mobilecyclingmanagement.model.Route;
+import com.example.mobilecyclingmanagement.repository.FirestoreRepositoryImpl;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class NoticationFragment extends Fragment {
 
+    private FloatingActionButton fab;
 
+    private FirestoreRepositoryImpl<Notification> repository;
+    private FirebaseAuth mAuth;
     private RecyclerView rvNotification;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,9 +44,35 @@ public class NoticationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_notication, container, false);
 
+        repository = new FirestoreRepositoryImpl<>("notifications", Notification.class);
+
+        mAuth = FirebaseAuth.getInstance();
+
         rvNotification = view.findViewById(R.id.recyclerView);
         rvNotification.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvNotification.setAdapter(new NotificationAdapter());
+
+
+
+        repository.readAll(new FirestoreCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                List<Notification> filteredNotification = new ArrayList<>();
+                List<Notification> notifications = (List<Notification>) result;
+
+                for (Notification notification : notifications) {
+                    if (notification.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        filteredNotification.add(notification);
+                    }
+                }
+
+                rvNotification.setAdapter(new NotificationAdapter(getContext(), filteredNotification));
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
 
         return view;
     }
