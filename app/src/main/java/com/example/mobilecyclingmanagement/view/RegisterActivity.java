@@ -86,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         .addOnCompleteListener(verificationTask -> {
                                             if (verificationTask.isSuccessful()) {
                                                 String userId = firebaseUser.getUid();
-                                                User user = new User(userId, email, firstName, lastName, gender, birthdate, address, password);
+                                                User user = new User(userId, email, firstName, lastName, gender, birthdate, address, password, false, false);
 
                                                 firestoreRepository.create(user, new FirestoreCallback() {
                                                     @Override

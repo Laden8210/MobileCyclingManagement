@@ -11,10 +11,14 @@ public class User {
     private String address;
     private String password;
 
+    private boolean isAdmin;
+    private boolean isVerified;
+
+
     public User() {
     }
 
-    public User(String uid, String email, String firstName, String lastName, String gender, String birthdate, String address, String password) {
+    public User(String uid, String email, String firstName, String lastName, String gender, String birthdate, String address, String password, boolean isAdmin, boolean isVerified) {
         this.uid = uid;
         this.email = email;
         this.firstName = firstName;
@@ -23,6 +27,8 @@ public class User {
         this.birthdate = birthdate;
         this.address = address;
         this.password = password;
+        this.isAdmin = isAdmin;
+        this.isVerified = isVerified;
     }
 
     public String getUid() {
@@ -87,5 +93,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 }
