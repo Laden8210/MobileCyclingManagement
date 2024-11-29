@@ -20,6 +20,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -34,8 +35,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mobilecyclingmanagement.R;
+import com.example.mobilecyclingmanagement.callback.FirestoreCallback;
+import com.example.mobilecyclingmanagement.callback.FirestoreRepository;
 import com.example.mobilecyclingmanagement.model.Coordination;
+import com.example.mobilecyclingmanagement.model.Post;
 import com.example.mobilecyclingmanagement.model.Route;
+import com.example.mobilecyclingmanagement.model.User;
+import com.example.mobilecyclingmanagement.repository.FirestoreRepositoryImpl;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -86,8 +92,11 @@ import com.mapbox.search.ui.adapter.autocomplete.PlaceAutocompleteUiAdapter;
 import com.mapbox.search.ui.view.CommonSearchViewConfiguration;
 import com.mapbox.search.ui.view.SearchResultsView;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import kotlin.Unit;
 import kotlin.coroutines.Continuation;
@@ -96,6 +105,8 @@ import kotlin.coroutines.EmptyCoroutineContext;
 import kotlin.jvm.functions.Function1;
 
 public class ViewSharedRouteActivity extends AppCompatActivity {
+
+    private TextView postedByText, destinationText, originText, dateTimeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +123,11 @@ public class ViewSharedRouteActivity extends AppCompatActivity {
         routeLineView = new MapboxRouteLineView(options);
         routeLineApi = new MapboxRouteLineApi(options);
 
+
+        postedByText = findViewById(R.id.postedByText);
+        destinationText = findViewById(R.id.destinationText);
+        originText = findViewById(R.id.originText);
+        dateTimeText = findViewById(R.id.dateTimeText);
 
         NavigationOptions navigationOptions = new NavigationOptions.Builder(this).accessToken(getString(R.string.mapbox_access_token)).build();
 
@@ -179,6 +195,32 @@ public class ViewSharedRouteActivity extends AppCompatActivity {
             Route route = (Route) getIntent().getParcelableExtra("route");
             Coordination startingPoint = route.getStartingCoordination();
             Coordination endingPoint = route.getEndingCoordination();
+
+            FirestoreRepository<User> repository = new FirestoreRepositoryImpl<>("users", User.class);
+
+            repository.readByField("uid", route.getUserId(), new FirestoreCallback() {
+                @Override
+                public void onSuccess(Object result) {
+                    User user = (User) result;
+                    postedByText.setText("Posted by: " + user.getFirstName() + " " + user.getLastName());
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    Log.e("ViewSharedRouteActivity", "Failed to load user data: " + e.getMessage());
+                }
+            });
+
+
+
+            originText.setText("Origin: " + route.getStartingName());
+            destinationText.setText("Destination: " + route.getEndingName());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+
+            Date date = route.getDatePosted().toDate();
+            dateTimeText.setText("Date: " + dateFormat.format(date) + " Time: " + timeFormat.format(date));
             fetchRoute(Point.fromLngLat(startingPoint.getLongitude(), startingPoint.getLatitude()), Point.fromLngLat(endingPoint.getLongitude(), endingPoint.getLatitude()));
         }
     }

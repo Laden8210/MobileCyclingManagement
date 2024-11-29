@@ -56,11 +56,12 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("org.osmdroid:osmdroid-android:6.1.13")
-    implementation ("com.google.firebase:firebase-appcheck-playintegrity:16.0.0")
-    
+    implementation ("com.google.firebase:firebase-appcheck-playintegrity:18.0.0")
+
 
     implementation ("com.mapbox.mapboxsdk:mapbox-sdk-turf:5.0.0")
-    implementation ("com.mapbox.navigation:android:2.15.2")
+    implementation ("com.mapbox.navigation:android:2.15.3")
+    implementation ("com.mapbox.navigation:android:2.19.0")
     implementation ("com.mapbox.search:mapbox-search-android-ui:1.0.0-rc.6")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")

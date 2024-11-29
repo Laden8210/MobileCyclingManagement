@@ -21,6 +21,9 @@ import com.example.mobilecyclingmanagement.view.AdminActivity;
 import com.example.mobilecyclingmanagement.view.HeroActivity;
 import com.example.mobilecyclingmanagement.view.RegisterActivity;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LandingActivity extends AppCompatActivity {
@@ -39,6 +42,8 @@ public class LandingActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
+
+        FirebaseApp.initializeApp(getApplicationContext());
 
         tvRegister = findViewById(R.id.tvRegister);
         btnLogin = findViewById(R.id.btnLogin);
