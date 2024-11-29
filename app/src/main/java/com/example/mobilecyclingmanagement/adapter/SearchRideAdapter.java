@@ -18,7 +18,10 @@ import com.example.mobilecyclingmanagement.model.User;
 import com.example.mobilecyclingmanagement.repository.FirestoreRepositoryImpl;
 import com.example.mobilecyclingmanagement.view.ViewSharedRouteActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchRideAdapter extends RecyclerView.Adapter<SearchRideAdapter.MyViewHolder> {
 
@@ -46,8 +49,21 @@ public class SearchRideAdapter extends RecyclerView.Adapter<SearchRideAdapter.My
 
         holder.originText.setText("Origin: " + route.getStartingName());
         holder.destinationText.setText("Destination: " + route.getEndingName());
-        holder.dateText.setText("Date: " + route.getDatePosted());
-        holder.timeText.setText("Time: " + route.getDatePosted());
+        if (route.getDatePosted() != null) {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+
+            Date date = route.getDatePosted().toDate();
+
+
+            holder.dateText.setText("Date: " + dateFormat.format(date));
+            holder.timeText.setText("Time: " + timeFormat.format(date));
+        } else {
+
+            holder.dateText.setText("Date: Not available");
+            holder.timeText.setText("Time: Not available");
+        }
 
         repository.readByField("uid", route.getUserId(), new FirestoreCallback() {
             @Override

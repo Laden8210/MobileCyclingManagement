@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,8 @@ public class NoticationFragment extends Fragment {
                 List<Notification> notifications = (List<Notification>) result;
 
                 for (Notification notification : notifications) {
+                    Log.d("Notification", notification.getUserId() + " " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+
                     if (notification.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                         filteredNotification.add(notification);
                     }

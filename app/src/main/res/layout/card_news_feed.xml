@@ -1,115 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp">
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="#F5F5F5">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#FFFFFF"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
+            <!-- Rider Name -->
             <TextView
                 android:id="@+id/tvRiderName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rider Name"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#000000" />
 
+            <!-- Post Date -->
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="September 20, 2021"
                 android:textSize="12sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:textColor="#757575" />
 
+            <!-- Divider -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:background="#607D8B" />
+                android:layout_marginVertical="8dp"
+                android:background="#E0E0E0" />
 
+            <!-- Post Content -->
             <TextView
                 android:id="@+id/tvContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-                android:textSize="16sp" />
+                android:layout_marginBottom="12dp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+                android:textSize="16sp"
+                android:textColor="#424242" />
 
+            <!-- Images Grid -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingVertical="8dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:horizontalSpacing="10dp"
-        android:padding="4dp"
-        android:verticalSpacing="10dp" />
-
+            <!-- Comments Section -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:horizontalSpacing="10dp"
-                android:padding="4dp"
-                android:verticalSpacing="10dp" />
+                android:clipToPadding="false"
+                android:paddingVertical="8dp" />
 
+            <!-- Comment Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Comment">
+                android:layout_marginTop="12dp"
+
+                android:hint="Add a comment...">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etComment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp"
+                    android:textColor="#424242" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
+            <!-- Like and Comment Buttons -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:orientation="horizontal">
+                android:layout_marginTop="12dp"
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp">
 
                 <Button
                     android:id="@+id/btnLike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0"
+                    android:layout_marginEnd="8dp"
                     android:drawablePadding="4dp"
-                    android:padding="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
                     android:text="Like"
-                    android:textSize="12sp"
-                    app:icon="@drawable/baseline_thumb_up_24" />
+                    android:textSize="14sp"
+                    app:icon="@drawable/baseline_thumb_up_24"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/btnComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
                     android:drawablePadding="4dp"
-                    android:padding="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
                     android:text="Comment"
-                    android:textSize="12sp"
-                    app:icon="@drawable/baseline_add_24" />
+                    android:textSize="14sp"
+                    app:icon="@drawable/baseline_add_24"
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
-
-
         </LinearLayout>
-
     </com.google.android.material.card.MaterialCardView>
-
 </LinearLayout>

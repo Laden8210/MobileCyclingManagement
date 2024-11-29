@@ -88,33 +88,36 @@ public class NewFeedAdapter extends RecyclerView.Adapter<NewFeedAdapter.MyViewHo
                 post.setLikes(new ArrayList<>());
             }
 
-            if (isLikedByCurrentUser) {
-
+            if (post.getLikes().contains(currentUserUID)) {
+                // Unlike the post
                 post.getLikes().remove(currentUserUID);
             } else {
-
+                // Like the post
                 post.getLikes().add(currentUserUID);
             }
 
             repository.updateField("posts", post.getPostID(), "likes", post.getLikes(), new FirestoreCallback() {
                 @Override
                 public void onSuccess(Object result) {
-                    int updatedLikeCount = post.getLikes().size();
-                    holder.btnLike.setText(updatedLikeCount + " Likes");
+                    updateLikeButton(holder, post, currentUserUID);
 
+                    // Notify the post owner about the like
                     repository.readByField("uid", currentUserUID, new FirestoreCallback() {
                         @Override
                         public void onSuccess(Object result) {
                             User user = (User) result;
-                            SaveNotification.saveNotification(holder.itemView.getContext(), post.getUserUID(), "Your post has been liked by " + user.getFirstName() + " " + user.getLastName());
+                            SaveNotification.saveNotification(
+                                    holder.itemView.getContext(),
+                                    post.getUserUID(),
+                                    "Your post has been liked by " + user.getFirstName() + " " + user.getLastName()
+                            );
                         }
 
                         @Override
                         public void onFailure(Exception e) {
-                            holder.tvRideName.setText("Unknown User");
+                            Toast.makeText(holder.itemView.getContext(), "Failed to retrieve user info", Toast.LENGTH_SHORT).show();
                         }
                     });
-
                 }
 
                 @Override
@@ -195,7 +198,15 @@ public class NewFeedAdapter extends RecyclerView.Adapter<NewFeedAdapter.MyViewHo
             });
         });
     }
-
+    private void updateLikeButton(MyViewHolder holder, Post post, String currentUserUID) {
+        int likeCount = (post.getLikes() != null) ? post.getLikes().size() : 0;
+        holder.btnLike.setText(likeCount + " Likes");
+        if (post.getLikes() != null && post.getLikes().contains(currentUserUID)) {
+            holder.btnLike.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_thumb_up_off_alt_24, 0, 0, 0);
+        } else {
+            holder.btnLike.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_thumb_up_alt_24, 0, 0, 0);
+        }
+    }
 
     private int calculateNumberOfColumns(int imageCount) {
         int minColumns = 2;

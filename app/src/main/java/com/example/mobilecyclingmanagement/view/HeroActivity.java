@@ -107,7 +107,7 @@ public class HeroActivity extends AppCompatActivity implements NavigationView.On
                     .show();
         }
 
-
+        drawerLayout.closeDrawer(GravityCompat.START);
         return false;
     }
 }

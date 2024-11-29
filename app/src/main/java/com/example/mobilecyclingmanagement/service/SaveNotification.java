@@ -17,7 +17,7 @@ public class SaveNotification {
         repository.create(notification, new FirestoreCallback() {
             @Override
             public void onSuccess(Object result) {
-                Toast.makeText(context, "Notification sent.", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
